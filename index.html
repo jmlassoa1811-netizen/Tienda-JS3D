@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3D STORE</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#050816;
+    color:white;
+    font-family:'Poppins',sans-serif;
+}
+
+/* NAVBAR */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,8,22,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(0,229,255,0.15);
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 7%;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.logo{
+    font-family:'Orbitron',sans-serif;
+    font-size:28px;
+    color:#00e5ff;
+    text-shadow:0 0 15px #00e5ff;
+}
+
+.nav-links{
+    display:flex;
+    gap:20px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
+    font-weight:500;
+}
+
+.nav-links a:hover{
+    color:#00e5ff;
+}
+
+.search{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    background:#111827;
+    color:white;
+}
+
+.menu-toggle{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:4px;
+}
+
+.menu-toggle span{
+    display:block;
+    width:25px;
+    height:2px;
+    background:#00e5ff;
+    border-radius:2px;
+}
+
+/* HERO */
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+    background:
+    linear-gradient(rgba(5,8,22,0.8),rgba(5,8,22,0.9)),
+    url("imagen-fondo-pagina.png");
+    background-size:cover;
+    background-position:center;
+}
+
+.hero-content h1{
+    font-size:65px;
+    font-family:'Orbitron',sans-serif;
+    color:#00e5ff;
+    margin-bottom:20px;
+    text-shadow:0 0 25px #00e5ff;
+}
+
+.hero-content p{
+    font-size:20px;
+    max-width:700px;
+    margin:auto;
+    color:#cbd5e1;
+}
+
+/* TITULO */
+
+.section-title{
+    text-align:center;
+    font-size:40px;
+    margin:70px 0 10px;
+    font-family:'Orbitron',sans-serif;
+    color:#00e5ff;
+}
+
+/* FILTROS */
+
+.filtros{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+    padding:20px 7% 30px;
+}
+
+.filtro-btn{
+    padding:10px 22px;
+    border-radius:30px;
+    border:1px solid rgba(0,229,255,0.4);
+    background:transparent;
+    color:white;
+    font-family:'Poppins',sans-serif;
+    font-size:14px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.filtro-btn:hover,
+.filtro-btn.activo{
+    background:#00e5ff;
+    color:black;
+    font-weight:600;
+    border-color:#00e5ff;
+}
+
+/* ETIQUETAS */
+
+.categoria-tag{
+    display:inline-block;
+    font-size:11px;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:8px;
+    font-weight:600;
+    letter-spacing:0.5px;
+}
+
+.tag-hogar      { background:rgba(46, 82, 71, 0.2); color:#9bee98; }
+.tag-accesorios { background:rgba(0,229,255,0.15); color:#00e5ff; }
+.tag-mascotas   { background:rgba(219, 57, 84, 0.15); color:#9c335f; }
+.tag-figuras    { background:rgba(37, 18, 1, 0.15); color:#fdba74; }
+.tag-juguetes   { background:rgba(30, 106, 109, 0.15); color:#82f0d4; }
+.tag-animales   { background:rgba(25, 75, 18, 0.15); color:#77e66d; }
+
+/* PRODUCTOS */
+
+.products{
+    padding:10px 7% 80px;
+}
+#productos-container{
+
+    display:grid !important;
+
+    grid-template-columns:repeat(3, 1fr) !important;
+
+    gap:25px !important;
+    width: 100%;
+}
+
+.product-card{
+    background:#0f172a;
+    border-radius:22px;
+    overflow:hidden;
+    transition:0.4s;
+    border:1px solid rgba(0,229,255,0.12);
+}
+
+.product-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 30px rgba(0,229,255,0.3);
+}
+
+.product-card.oculto{
+    display:none;
+}
+
+.product-card img{
+    width:100%;
+    height:240px;
+    object-fit:contain;
+    background: #050816;
+}
+
+.product-info{
+    padding:20px;
+}
+
+.price{
+    color:#00e5ff;
+    font-size:22px;
+    margin:10px 0;
+    font-weight:bold;
+}
+
+.stars{
+    color:gold;
+    margin-bottom:8px;
+}
+
+.product-info button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#00e5ff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.product-info button:hover{
+    background:#00cfea;
+}
+
+/* ===== OPCIONES DE PRODUCTO ===== */
+
+.opciones-producto{
+    margin:10px 0 14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.opciones-label{
+    font-size:11px;
+    color:#64748b;
+    margin-bottom:4px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+}
+
+.colores-selector{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.color-opcion{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:transform 0.15s;
+    flex-shrink:0;
+}
+
+.color-opcion:hover{ transform:scale(1.15); }
+
+.color-opcion.seleccionado{
+    border-color:white;
+    transform:scale(1.1);
+    box-shadow:0 0 0 2px #00e5ff;
+}
+
+.color-nombre{
+    font-size:11px;
+    color:#64748b;
+    margin-top:3px;
+    min-height:14px;
+}
+
+.personalizacion-campo input{
+    width:100%;
+    padding:9px 12px;
+    border:1px solid rgba(0,229,255,0.2);
+    border-radius:10px;
+    background:#111827;
+    color:white;
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    transition:border-color 0.2s;
+}
+
+.personalizacion-campo input:focus{
+    outline:none;
+    border-color:#00e5ff;
+}
+
+.personalizacion-campo input.error{
+    border-color:#ef4444;
+}
+
+/* CARRITO FLOTANTE */
+
+.cart{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#00e5ff;
+    color:black;
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    cursor:pointer;
+    box-shadow:0 0 20px #00e5ff;
+    z-index:1500;
+}
+
+.cart-badge{
+    position:absolute;
+    top:-4px;
+    right:-4px;
+    background:#ff4757;
+    color:white;
+    font-size:12px;
+    font-weight:700;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:360px;
+    height:100%;
+    background:#0f172a;
+    padding:25px;
+    transition:0.4s;
+    overflow-y:auto;
+    z-index:2000;
+    border-left:2px solid #00e5ff;
+}
+
+.sidebar h2{
+    margin-bottom:20px;
+    color:#00e5ff;
+}
+
+.carrito-item{
+    margin-bottom:15px;
+    border-bottom:1px solid #334155;
+    padding-bottom:10px;
+}
+
+.carrito-item-nombre{
+    font-size:13px;
+    line-height:1.4;
+    margin-bottom:4px;
+}
+
+.qty-controls{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:8px;
+}
+
+.qty-btn{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    border:none;
+    background:#1e293b;
+    color:#00e5ff;
+    font-size:18px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:0.2s;
+}
+
+.qty-btn:hover{
+    background:#334155;
+}
+
+.qty-number{
+    font-size:16px;
+    font-weight:600;
+    min-width:20px;
+    text-align:center;
+}
+
+.qty-subtotal{
+    margin-left:auto;
+    color:#00e5ff;
+    font-weight:600;
+}
+
+.sidebar input,
+.sidebar select{
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#111827;
+    color:white;
+    font-family:'Poppins',sans-serif;
+}
+
+.sidebar button.enviar-btn{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:12px;
+    background:#00e5ff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+}
+
+.total{
+    margin-top:20px;
+    font-size:22px;
+    color:#00e5ff;
+    font-weight:700;
+}
+
+.loading{
+    display:none;
+    margin-top:10px;
+    color:#00e5ff;
+}
+
+/* FOOTER */
+
+footer{
+    padding:40px;
+    text-align:center;
+    border-top:1px solid rgba(0,229,255,0.1);
+    color:#94a3b8;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:900px){
+
+    .hero-content h1{ font-size:42px; }
+
+    .section-title{
+        font-size:30px;
+        margin:50px 0 10px;
+    }
+
+    .products{
+        grid-template-columns:repeat(auto-fill,minmax(220px,280px));
+        justify-content:center;
+        padding:10px 5% 60px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        flex-direction:row;
+        justify-content:space-between;
+        align-items:center;
+        padding:16px 5%;
+        flex-wrap:nowrap;
+    }
+
+    .logo{ font-size:20px; }
+
+    .nav-links{
+        display:none;
+        flex-direction:column;
+        gap:0;
+        width:100%;
+        order:3;
+    }
+
+    .nav-links.abierto{ display:flex; }
+
+    .nav-links a{
+        padding:12px 0;
+        border-bottom:1px solid rgba(0,229,255,0.1);
+        font-size:15px;
+    }
+
+    .search{ display:none; }
+
+    .menu-toggle{ display:flex; }
+
+    .hero{
+        min-height:70vh;
+        padding:30px 20px;
+    }
+
+    .hero-content h1{
+        font-size:28px;
+        line-height:1.3;
+    }
+
+    .hero-content p{ font-size:14px; }
+
+    .section-title{
+        font-size:20px;
+        margin:40px 0 10px;
+    }
+
+    .filtros{
+        gap:8px;
+        padding:14px 5% 20px;
+    }
+
+    .filtro-btn{
+        font-size:12px;
+        padding:8px 14px;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+        justify-content:center;
+        padding:10px 5% 80px;
+        gap:16px;
+    }
+
+    .product-card img{ height:200px; }
+
+    .sidebar{
+        width:100%;
+        right:-110%;
+    }
+
+    .sidebar.abierto{ right:0; }
+
+    .cart{
+        width:55px;
+        height:55px;
+        font-size:24px;
+        right:15px;
+        bottom:15px;
+    }
+
+    footer{
+        padding:24px 16px;
+        font-size:13px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<div class="navbar">
+
+    <div class="logo">3D STORE</div>
+
+    <div class="nav-links" id="navLinks">
+        <a href="#" onclick="filtrar('todos',null)">Todos</a>
+        <a href="#" onclick="filtrar('hogar',null)">Hogar</a>
+        <a href="#" onclick="filtrar('accesorios',null)">Accesorios</a>
+        <a href="#" onclick="filtrar('mascotas',null)">Mascotas</a>
+        <a href="#" onclick="filtrar('figuras',null)">Figuras y Llaveros</a>
+        <a href="#" onclick="filtrar('animales',null)">Animales Tejidos</a>
+        <a href="#" onclick="filtrar('juguetes',null)">Juguetes</a>
+    </div>
+
+    <input type="text" class="search" placeholder="Buscar...">
+
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+    </button>
+
+</div>
+</header>
+
+<section class="hero">
+<div class="hero-content">
+    <h1>IMPRESIONES 3D JS</h1>
+    <p>Productos únicos impresos en 3D para decorar, jugar, organizar y sorprender.</p>
+</div>
+</section>
+
+<h2 class="section-title">LOS MEJORES PRODUCTOS</h2>
+
+<div class="filtros">
+    <button class="filtro-btn activo" onclick="filtrar('todos',this)">Todos</button>
+    <button class="filtro-btn" onclick="filtrar('hogar',this)">🏠 Hogar</button>
+    <button class="filtro-btn" onclick="filtrar('accesorios',this)">🎮 Accesorios</button>
+    <button class="filtro-btn" onclick="filtrar('mascotas',this)">🐾 Mascotas</button>
+    <button class="filtro-btn" onclick="filtrar('figuras',this)">🐉 Figuras Y Llaveros</button>
+    <button class="filtro-btn" onclick="filtrar('animales',this)">🐼 Animales de colección</button>
+    <button class="filtro-btn" onclick="filtrar('juguetes',this)">🧸 Juguetes</button>
+</div>
+
+
+<section class="products" id="listaProductos">
+
+    <div id="productos-container"></div>
+
+</section>
+
+<div class="cart" onclick="abrirCarrito()">
+    🛒
+    <div class="cart-badge" id="cartBadge">0</div>
+</div>
+
+<div class="sidebar" id="sidebar">
+
+    <button onclick="abrirCarrito()" style="position:absolute;top:20px;right:20px;background:transparent;border:none;color:#00e5ff;font-size:24px;cursor:pointer;">✕</button>
+
+    <h2>Tu carrito</h2>
+
+    <div id="listaCarrito"></div>
+
+    <div class="total" id="total">Total: $0</div>
+
+    <input type="text" id="nombre" placeholder="Nombre completo">
+    <input type="text" id="numero" placeholder="Número de contacto">
+    <input type="text" id="direccion" placeholder="Dirección">
+
+    <select id="medioPago">
+        <option value="">Método de pago</option>
+        <option>Nequi</option>
+        <option>Daviplata</option>
+        <option>Efectivo</option>
+        <option>Transferencia</option>
+    </select>
+
+    <button class="enviar-btn" onclick="enviarPedido()">Enviar Pedido</button>
+
+    <div class="loading" id="loading">Enviando pedido...</div>
+
+</div>
+
+<footer>
+© 2026 3D STORE - Tecnología & Creatividad
+</footer>
+
+<script>
+const COLORES = {
+
+    blanco: "#ffffff",
+    negro: "#1e293b",
+    rojo: "#ef4444",
+    azul: "#3b82f6",
+    verde: "#22c55e",
+    amarillo: "#f59e0b",
+    rosa: "#ec4899",
+    morado: "#8b5cf6",
+    gris: "#6b7280",
+    naranja: "#f97316",
+    cafe: "#92400e"
+
+};
+function crearTarjeta(producto){
+
+    let categoriaClass = "";
+
+    switch(producto.categoria.toLowerCase()){
+
+        case "accesorios":
+            categoriaClass = "tag-accesorios";
+            break;
+        
+
+        case "figuras":
+            categoriaClass = "tag-figuras";
+            break;
+
+        case "hogar":
+            categoriaClass = "tag-hogar";
+            break;
+
+        case "mascotas":
+            categoriaClass = "tag-mascotas";
+            break;
+
+        case "animales tejidos":
+            categoriaClass = "tag-animales";
+            break;
+
+        case "juguetes":
+            categoriaClass = "tag-juguetes";
+            break;
+
+    }
+    
+    const disponible = producto.disponible.toUpperCase() === "SI";
+
+    return `
+
+    <div class="product-card"
+        data-categoria="${producto.categoria.toLowerCase()}"
+        data-colores="${producto.colores}">
+
+        <img src="${producto.imagen}" alt="${producto.producto}">
+
+        <div class="product-info">
+
+            <span class="categoria-tag ${categoriaClass}">
+                ${producto.categoria}
+            </span>
+
+            <h3>${producto.producto}</h3>
+
+            <div class="stars">★★★★★</div>
+
+            <p>${producto.producto}</p>
+
+            <div class="price">$${Number(producto.precio).toLocaleString("es-CO")}</div>
+
+            
+            ${
+                disponible
+                ? ` 
+                    <button onclick="agregarAlCarrito('${producto.producto}',${producto.precio})"}>
+                        Agregar al carrito
+                    </button>
+                 `
+                :`
+                    <button disabled
+                        style="
+                            background:#64748b;
+                            cursor:not-allowed;
+                            color:white;
+                        ">
+                        AGOTADO
+                    </button>
+                 `
+            }
+        </div>
+
+    </div>
+
+    `;
+
+}
+fetch("https://script.google.com/macros/s/AKfycbyxLFJnCWO-k2521Sj6wuO_tcmbE4NEFudu6YEhYmTHyCJOb2sDwszF_WGI-zmjs14G/exec")
+.then(res => res.json())
+.then(productos => {
+
+    const contenedor = document.getElementById("productos-container");
+
+    contenedor.innerHTML = "";
+
+    productos.forEach(producto => {
+
+        contenedor.innerHTML += crearTarjeta(producto);
+
+    });
+    generarOpciones();
+
+});
+
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyxLFJnCWO-k2521Sj6wuO_tcmbE4NEFudu6YEhYmTHyCJOb2sDwszF_WGI-zmjs14G/exec";
+
+let carrito = {};
+let total   = 0;
+
+const sidebar = document.getElementById("sidebar");
+
+/* -------- MENÚ MÓVIL -------- */
+function toggleMenu(){
+    document.getElementById("navLinks").classList.toggle("abierto");
+}
+
+/* -------- CARRITO LATERAL -------- */
+function abrirCarrito(){
+    const esCelular = window.innerWidth <= 600;
+    if(esCelular){
+        sidebar.classList.toggle("abierto");
+    } else {
+        sidebar.style.right = sidebar.style.right === "0px" ? "-400px" : "0px";
+    }
+}
+
+/* -------- FILTROS -------- */
+function filtrar(categoria, btn){
+    document.querySelectorAll(".product-card").forEach(card => {
+        if(categoria === "todos" || card.dataset.categoria === categoria){
+            card.classList.remove("oculto");
+        } else {
+            card.classList.add("oculto");
+        }
+    });
+    document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("activo"));
+    if(btn) btn.classList.add("activo");
+}
+
+/* -------- GENERADOR DE OPCIONES POR TARJETA -------- */
+function generarOpciones(){
+    document.querySelectorAll(".product-card").forEach((card, idx) => {
+        const coloresData    = card.dataset.colores;
+        const personalizable = card.dataset.personalizable;
+
+        if(!coloresData && !personalizable) return;
+
+        const info    = card.querySelector(".product-info");
+        const addBtns = info.querySelectorAll("button");
+        const firstBtn = addBtns[0];
+
+        const div = document.createElement("div");
+        div.className = "opciones-producto";
+
+        /* -- COLORES -- */
+        if(coloresData){
+            const lista = coloresData.split(",")
+            .map(c => c.trim().toLowerCase());
+            let html = `<div>
+                <p class="opciones-label">Color</p>
+                <div class="colores-selector" id="colores-${idx}">`;
+            lista.forEach((nombre, i) => {
+                const hex = COLORES[nombre] || "#cccccc";
+                const borde  = nombre === "blanco" 
+                ? "border:1px solid #334155;" 
+                : "";
+                html += `<div class="color-opcion ${i===0 ? 'seleccionado' : ''}"
+                    style="background:${hex};${borde}"
+                    data-color="${nombre}"
+                    title="${nombre}"
+                    onclick="seleccionarColor(this,'colores-${idx}','colorNombre-${idx}')">
+                </div>`;
+            });
+            const primerNombre = lista[0];
+            html += `</div>
+                <p class="color-nombre" id="colorNombre-${idx}">${primerNombre}</p>
+            </div>`;
+            div.innerHTML += html;
+        }
+
+        /* -- CAMPO PERSONALIZABLE -- */
+        if(personalizable){
+            div.innerHTML += `
+                <div class="personalizacion-campo">
+                    <p class="opciones-label">${personalizable}</p>
+                    <input type="text" id="custom-${idx}" placeholder="Escribe aquí..." maxlength="25">
+                </div>`;
+        }
+
+        info.insertBefore(div, firstBtn);
+
+        /* Reasigna TODOS los botones "Agregar al carrito" de esta tarjeta */
+        addBtns.forEach(btn => {
+            const match = btn.getAttribute("onclick").match(/agregarAlCarrito\('(.+?)',(\d+)\)/);
+            if(match){
+                const nombre = match[1];
+                const precio = parseInt(match[2]);
+                btn.setAttribute("onclick",
+                    `agregarAlCarritoConOpciones('${nombre}',${precio},${idx})`);
+            }
+        });
+    });
+}
+
+function seleccionarColor(btn, grupoId, nombreId){
+    document.querySelectorAll(`#${grupoId} .color-opcion`).forEach(b => b.classList.remove("seleccionado"));
+    btn.classList.add("seleccionado");
+    document.getElementById(nombreId).textContent = btn.dataset.color;
+}
+
+/* -------- AGREGAR AL CARRITO -------- */
+function agregarAlCarrito(nombre, precio){
+    if(carrito[nombre]){
+        carrito[nombre].cantidad++;
+    } else {
+        carrito[nombre] = { precio, cantidad: 1 };
+    }
+    actualizarCarrito();
+}
+
+function agregarAlCarritoConOpciones(nombre, precio, idx){
+    const colorBtn   = document.querySelector(`#colores-${idx} .seleccionado`);
+    const color      = colorBtn ? colorBtn.dataset.color : null;
+    const campoCustom = document.getElementById(`custom-${idx}`);
+    const customVal  = campoCustom ? campoCustom.value.trim() : null;
+
+    /* Validar campo personalizable si existe */
+    if(campoCustom && !customVal){
+        campoCustom.classList.add("error");
+        campoCustom.placeholder = "⚠ Este campo es requerido";
+        campoCustom.focus();
+        setTimeout(() => {
+            campoCustom.classList.remove("error");
+            campoCustom.placeholder = "Escribe aquí...";
+        }, 2500);
+        return;
+    }
+
+    let nombreCompleto = nombre;
+    if(color)     nombreCompleto += ` [${color}]`;
+    if(customVal) nombreCompleto += ` [${customVal}]`;
+
+    if(carrito[nombreCompleto]){
+        carrito[nombreCompleto].cantidad++;
+    } else {
+        carrito[nombreCompleto] = { precio, cantidad: 1 };
+    }
+    actualizarCarrito();
+}
+
+/* -------- CAMBIAR CANTIDAD -------- */
+function cambiarCantidad(nombre, cambio){
+    if(!carrito[nombre]) return;
+    carrito[nombre].cantidad += cambio;
+    if(carrito[nombre].cantidad <= 0) delete carrito[nombre];
+    actualizarCarrito();
+}
+
+/* -------- ACTUALIZAR VISTA CARRITO -------- */
+function actualizarCarrito(){
+    const lista = document.getElementById("listaCarrito");
+    lista.innerHTML = "";
+    total = 0;
+
+    for(let item in carrito){
+        let prod = carrito[item];
+        total += prod.precio * prod.cantidad;
+        const key = item.replace(/'/g, "\\'");
+        lista.innerHTML += `
+            <div class="carrito-item">
+                <div class="carrito-item-nombre"><strong>${item}</strong></div>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="cambiarCantidad('${key}',-1)">−</button>
+                    <span class="qty-number">${prod.cantidad}</span>
+                    <button class="qty-btn" onclick="cambiarCantidad('${key}',1)">+</button>
+                    <span class="qty-subtotal">$${(prod.precio * prod.cantidad).toLocaleString()}</span>
+                </div>
+            </div>`;
+    }
+
+    document.getElementById("total").innerHTML = "Total: $" + total.toLocaleString();
+
+    const totalItems = Object.values(carrito).reduce((s, p) => s + p.cantidad, 0);
+    const badge = document.getElementById("cartBadge");
+    badge.style.display = totalItems > 0 ? "flex" : "none";
+    badge.textContent   = totalItems;
+}
+
+/* -------- ENVIAR A GOOGLE SHEETS -------- */
+async function enviarASheets(datos){
+    try {
+        await fetch(GOOGLE_SHEETS_URL, {
+            method: "POST",
+            mode:   "no-cors",
+            headers:{ "Content-Type":"text/plain" },
+            body: JSON.stringify(datos)
+        });
+    } catch(error){
+        console.error(error);
+    }
+}
+
+/* -------- ENVIAR PEDIDO POR WHATSAPP -------- */
+function enviarPedido(){
+    const nombre    = document.getElementById("nombre").value.trim();
+    const numero    = document.getElementById("numero").value.trim();
+    const direccion = document.getElementById("direccion").value.trim();
+    const medioPago = document.getElementById("medioPago").value;
+
+    if(!nombre || !numero || !direccion || !medioPago){
+        alert("Completa todos los campos");
+        return;
+    }
+    if(Object.keys(carrito).length === 0){
+        alert("El carrito está vacío");
+        return;
+    }
+
+    document.getElementById("loading").style.display = "block";
+
+    let productosTexto = "";
+    for(let item in carrito){
+        let prod = carrito[item];
+        productosTexto += `• ${item} x${prod.cantidad} - $${(prod.precio * prod.cantidad).toLocaleString()}\n`;
+    }
+
+    enviarASheets({ nombre, numero, direccion, pago: medioPago, productos: productosTexto, total, fecha: new Date().toLocaleString() });
+
+    let mensaje = "🛍️ *NUEVO PEDIDO - 3D STORE* %0A%0A";
+    mensaje += "👤 Nombre: "    + nombre    + "%0A";
+    mensaje += "📱 Número: "    + numero    + "%0A";
+    mensaje += "📍 Dirección: " + direccion + "%0A";
+    mensaje += "💳 Pago: "      + medioPago + "%0A%0A";
+    mensaje += " O Color:"      + COLORES +"%0A%0A";
+    mensaje += "📦 *PRODUCTOS* %0A";
+
+    for(let item in carrito){
+        let prod = carrito[item];
+        mensaje += `• ${item} x${prod.cantidad} - $${(prod.precio * prod.cantidad).toLocaleString()}%0A`;
+    }
+    mensaje += "%0A💰 TOTAL: $" + total.toLocaleString();
+
+    window.open("https://wa.me/573007024381?text=" + mensaje, "_blank");
+
+    setTimeout(() => {
+        carrito = {};
+        total   = 0;
+        actualizarCarrito();
+        document.getElementById("nombre").value    = "";
+        document.getElementById("numero").value    = "";
+        document.getElementById("direccion").value = "";
+        document.getElementById("medioPago").value = "";
+        document.getElementById("loading").style.display = "none";
+        alert("Pedido enviado correctamente");
+    }, 1000);
+}
+
+
+
+</script>
+</body>
+</html>
