@@ -189,11 +189,9 @@ header{
 }
 #productos-container{
 
-    display:grid !important;
-
-    grid-template-columns:repeat(3, 1fr) !important;
-
-    gap:25px !important;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0, 1fr)) ;
+    gap:25px ;
     width: 100%;
 }
 
@@ -489,11 +487,11 @@ footer{
     }
 
     .products{
-        grid-template-columns:repeat(auto-fill,minmax(220px,280px));
-        justify-content:center;
         padding:10px 5% 60px;
     }
-
+    #productos-container{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 
 @media(max-width:600px){
@@ -556,10 +554,11 @@ footer{
     }
 
     .products{
-        grid-template-columns:1fr;
-        justify-content:center;
-        padding:10px 5% 80px;
-        gap:16px;
+        padding:10px 5% 80px;   
+    }
+    #productos-container{
+    grid-template-columns:1fr;
+    gap:16px;
     }
 
     .product-card img{ height:200px; }
@@ -837,6 +836,9 @@ function generarOpciones(){
         const info    = card.querySelector(".product-info");
         const addBtns = info.querySelectorAll("button");
         const firstBtn = addBtns[0];
+        if(firstBtn.disabled){
+            return;
+        }
 
         const div = document.createElement("div");
         div.className = "opciones-producto";
