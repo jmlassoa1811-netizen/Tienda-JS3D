@@ -187,13 +187,10 @@ header{
     padding:10px 7% 80px;
 }
 #productos-container{
-
-    display:grid !important;
-
-    grid-template-columns:repeat(3, 1fr) !important;
-
-    gap:25px !important;
-    width: 100%;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:25px;
+    width:100%;
 }
 
 .product-card{
@@ -340,7 +337,6 @@ header{
     box-shadow:0 0 20px #00e5ff;
     z-index:1500;
 }
-
 
 .cart-badge{
     position:absolute;
@@ -492,8 +488,9 @@ footer{
         padding:10px 5% 60px;
     }
     #productos-container{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns: repeat(2,1fr);
     }
+
 }
 
 @media(max-width:600px){
