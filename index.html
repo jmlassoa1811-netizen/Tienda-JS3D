@@ -751,28 +751,25 @@ function crearTarjeta(producto){
 
             <div class="price">$${Number(producto.precio).toLocaleString("es-CO")}</div>
 
-             ${
-                disponible
-                ? ` 
-                    <button onclick="agregarAlCarrito('${producto.producto}',${producto.precio})"}>
-                        Agregar al carrito
-                    </button>
-                 `
-                :`
-                    <button disabled
-                        style="
-                            background:#64748b;
-                            cursor:not-allowed;
-                            color:white;
-                        ">
-                        AGOTADO
-                    </button>
-                 `
+             ${disponible
+            ? `
+                <button onclick="agregarAlCarrito('${producto.producto}', ${producto.precio})">
+                    Agregar al carrito
+                </button>
+            `
+            : `
+                <button disabled
+                    style="
+                        background:#64748b;
+                        color:white;
+                        cursor:not-allowed;
+                    ">
+                    AGOTADO
+                </button>
+            `
             }
         </div>
-
     </div>
-
     `;
 
 }
