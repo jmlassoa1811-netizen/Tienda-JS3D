@@ -176,12 +176,13 @@ header{
     letter-spacing:0.5px;
 }
 
-.tag-hogar      { background:rgba(46, 82, 71, 0.2); color:#000000; }
-.tag-accesorios { background:rgba(0,229,255,0.15); color:#000000; }
-.tag-mascotas   { background:rgba(219, 57, 84, 0.15); color:#000000; }
-.tag-figuras    { background:rgba(37, 18, 1, 0.15); color:#000000; }
-.tag-juguetes   { background:rgba(30, 106, 109, 0.15); color:#000000; }
-.tag-animales   { background:rgba(25, 75, 18, 0.15); color:#000000; }
+.tag-hogar      { background:rgba(46, 82, 71, 0.2); color:#f3eeee; }
+.tag-accesorios { background:rgba(0,229,255,0.15); color:#f8f8f8; }
+.tag-mascotas   { background:rgba(219, 57, 84, 0.15); color:#f7f3f3; }
+.tag-figuras    { background:rgba(37, 18, 1, 0.15); color:#fdf9f9; }
+.tag-juguetes   { background:rgba(30, 106, 109, 0.15); color:#f1eded; }
+.tag-animales   { background:rgba(30, 106, 109, 0.15); color:#f1eded; }
+.tag-navidad    { background:rgba(30, 106, 109, 0.15); color:#f1eded;; }
 
 /* PRODUCTOS */
 
@@ -602,6 +603,7 @@ footer{
         <a href="#" onclick="filtrar('figuras',null)">Figuras y Llaveros</a>
         <a href="#" onclick="filtrar('animales',null)">Animales Tejidos</a>
         <a href="#" onclick="filtrar('juguetes',null)">Juguetes</a>
+        <a href="#" onclick="filtrar('navidad',null)">Juguetes</a>
     </div>
 
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menú">
@@ -633,6 +635,7 @@ footer{
     <button class="filtro-btn" onclick="filtrar('figuras',this)">🐉 Figuras Y Llaveros</button>
     <button class="filtro-btn" onclick="filtrar('animales',this)">🐼 Animales de colección</button>
     <button class="filtro-btn" onclick="filtrar('juguetes',this)">🧸 Juguetes</button>
+    <button class="filtro-btn" onclick="filtrar('navidad',this)">🎁 Navidad</button>
 </div>
 
 <section class="products" id="listaProductos">
