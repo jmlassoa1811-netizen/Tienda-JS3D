@@ -728,6 +728,10 @@ function crearTarjeta(producto){
             categoriaClass = "tag-juguetes";
             break;
 
+        case "navidad":
+            categoriaClass = "tag-navidad";
+            break;
+
     }
     
     const disponible = producto.disponible.toUpperCase() === "SI";
@@ -1055,3 +1059,4 @@ function enviarPedido(){
 </script>
 </body>
 </html>
+
