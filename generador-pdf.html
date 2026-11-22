@@ -4,46 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JS3D PDF Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#101820;--muted:#65717c;--accent:#20b8bd;--line:#dce3e8;--paper:#fff;--bg:#eef2f4}
+:root{--black:#090B0E;--white:#FFFFFF;--silver:#A7ADB5;--graphite:#292D33;--ink:#090B0E;--muted:#626A73;--accent:#A7ADB5;--line:#D9DCE0;--paper:#FFFFFF;--bg:#F1F2F3}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-header{background:#090d10;color:#fff;padding:22px 5%;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand{font-weight:900;letter-spacing:2px;font-size:25px}.brand span{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Poppins',Arial,sans-serif}
+header{background:var(--black);color:var(--white);padding:22px 5%;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-family:'Montserrat',sans-serif;font-weight:900;letter-spacing:2px;font-size:25px}.brand span{color:var(--silver)}
 header small{color:#b9c5cb}
 main{max-width:1200px;margin:28px auto;padding:0 20px}
 .toolbar,.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px}
 .toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-button{border:0;border-radius:9px;padding:11px 16px;font-weight:700;cursor:pointer}
-.primary{background:var(--accent);color:#061315}.secondary{background:#e9eff2;color:#1b2931}
+button{border:0;border-radius:9px;padding:11px 16px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif}
+.primary{background:var(--black);color:var(--white);border:1px solid var(--silver)}.primary:hover{background:var(--graphite)}.secondary{background:#E8EAED;color:var(--black)}
 input[type=search]{padding:11px 13px;border:1px solid var(--line);border-radius:9px;min-width:230px;flex:1}
 .status{color:var(--muted);font-size:13px;margin-left:auto}
 h1{font-size:22px;margin:0 0 6px}.sub{color:var(--muted);font-size:14px;margin:0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.item{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:#fff}
-.item img{width:100%;height:170px;object-fit:contain;background:#f4f6f7}
+.item{border:1px solid var(--silver);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:var(--white)}
+.item img{width:100%;height:170px;object-fit:contain;background:#F0F1F2}
 .item .info{padding:12px;display:flex;flex-direction:column;gap:7px;flex:1}
-.item .name{font-weight:800}.meta{font-size:12px;color:var(--muted)}.price{font-size:18px;font-weight:900}
+.item .name{font-weight:800}.meta{font-size:12px;color:var(--muted)}.price{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:900;color:var(--black)}
 .pick{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:auto;padding-top:5px}
 .empty{padding:35px;text-align:center;color:var(--muted)}
 /* Hoja de impresión: cuatro productos por página */
 #printArea{display:none}
 .print-page{width:210mm;height:297mm;padding:13mm 14mm;margin:0 auto 18px;background:white;page-break-after:always;break-after:page;overflow:hidden;position:relative}
 .print-head{height:27mm;border-bottom:2px solid #111;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:8mm;margin-bottom:8mm}
-.print-logo{font-size:27pt;font-weight:900;letter-spacing:2px}.print-logo span{color:#159da3}
-.print-kicker{text-align:right;font-size:8pt;letter-spacing:1.5px;color:#68747c}
-.print-title{font-size:19pt;font-weight:800;margin:0 0 3mm}
+.print-logo{font-family:'Montserrat',sans-serif;font-size:27pt;font-weight:900;letter-spacing:2px;color:var(--black)}.print-logo span{color:var(--silver)}
+.print-kicker{text-align:right;font-family:'Montserrat',sans-serif;font-size:8pt;font-weight:700;letter-spacing:1.5px;color:var(--graphite)}
+.print-title{font-family:'Montserrat',sans-serif;font-size:19pt;font-weight:800;margin:0 0 3mm;color:var(--black)}
 .print-desc{font-size:9pt;color:#66727a;margin:0 0 8mm}
 .print-grid{height:205mm;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8mm}
-.print-card{border:1px solid #dce2e5;border-radius:4mm;overflow:hidden;display:flex;flex-direction:column;min-height:0}
-.print-card img{width:100%;height:65mm;object-fit:contain;background:#f5f7f8}
+.print-card{border:1px solid var(--silver);border-radius:4mm;overflow:hidden;display:flex;flex-direction:column;min-height:0;background:var(--white)}
+.print-card img{width:100%;height:65mm;object-fit:contain;background:#F0F1F2}
 .print-info{padding:5mm;display:flex;flex-direction:column;gap:2.5mm;flex:1}
-.print-cat{font-size:7pt;text-transform:uppercase;letter-spacing:1px;color:#138e94;font-weight:800}
-.print-name{font-size:13pt;font-weight:800;line-height:1.2}
+.print-cat{font-family:'Montserrat',sans-serif;font-size:7pt;text-transform:uppercase;letter-spacing:1px;color:var(--graphite);font-weight:800}
+.print-name{font-family:'Montserrat',sans-serif;font-size:13pt;font-weight:800;line-height:1.2;color:var(--black)}
 .print-measure{font-size:8pt;color:#69757d}
-.print-price{font-size:15pt;font-weight:900;margin-top:auto;padding-top:3mm}
+.print-price{font-family:'Montserrat',sans-serif;font-size:15pt;font-weight:900;color:var(--black);margin-top:auto;padding-top:3mm;border-top:1px solid #E3E5E7}
 .print-colors{font-size:8pt;color:#56636b}
-.print-foot{position:absolute;bottom:8mm;left:14mm;right:14mm;border-top:1px solid #e0e5e8;padding-top:3mm;display:flex;justify-content:space-between;font-size:7pt;color:#7b858b}
+.print-foot{position:absolute;bottom:8mm;left:14mm;right:14mm;border-top:1px solid var(--silver);padding-top:3mm;display:flex;justify-content:space-between;font-size:7pt;color:var(--graphite)}
 @page{size:A4;margin:0}
 @media print{
  body{background:#fff}
