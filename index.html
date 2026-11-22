@@ -17,7 +17,7 @@
 }
 
 body{
-    background:#839696;
+    background:#080808;
     color:rgb(0, 0, 0);
     font-family:'Poppins',sans-serif;
 }
@@ -28,9 +28,9 @@ header{
     position:sticky;
     top:0;
     z-index:1000;
-    background:rgba(84, 80, 80, 0.95);
+    background:rgba(0, 0, 0, 0.95);
     backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(0, 0, 0, 0.15);
+    border-bottom:1px solid rgba(248, 244, 244, 0.15);
 }
 
 .navbar{
@@ -45,8 +45,8 @@ header{
 .logo{
     font-family:'Orbitron',sans-serif;
     font-size:28px;
-    color:#000000;
-    text-shadow:0 0 15px #00e5ff;
+    color:#ffffff;
+    text-shadow:0 0 15px #1ca2b1;
 }
 
 .nav-links{
@@ -56,13 +56,13 @@ header{
 
 .nav-links a{
     text-decoration:none;
-    color:white;
+    color:rgb(245, 242, 242);
     transition:0.3s;
     font-weight:500;
 }
 
 .nav-links a:hover{
-    color:#000000;
+    color:#696767;
 }
 
 .search{
@@ -101,7 +101,7 @@ header{
     align-items:center;
     text-align:center;
     padding:40px;
-    background:linear-gradient(rgba(113, 113, 113, 0.8),rgba(181, 180, 180, 0.9)),
+    background:linear-gradient(rgba(41, 41, 41, 0.8),rgba(54, 54, 54, 0.9)),
     url("imagen-fondo-pagina.png");
     background-size:cover;
     background-position:center;
@@ -110,16 +110,18 @@ header{
 .hero-content h1{
     font-size:65px;
     font-family:'Orbitron',sans-serif;
-    color:#0a0a0a;
+    color:#000000;
     margin-bottom:20px;
-    text-shadow:0 0 25px #00e5ff;
+    text-shadow:0 0 25px #1ae687;
 }
-
+.hero-content h2{
+    color:#ffffff
+}
 .hero-content p{
     font-size:20px;
     max-width:700px;
     margin:auto;
-    color:#000000;
+    color:#f3efef;
 }
 
 /* TITULO */
@@ -129,7 +131,7 @@ header{
     font-size:40px;
     margin:70px 0 10px;
     font-family:'Orbitron',sans-serif;
-    color:#000000;
+    color:#ffffff;
 }
 
 /* FILTROS */
@@ -145,7 +147,7 @@ header{
 .filtro-btn{
     padding:10px 22px;
     border-radius:30px;
-    border:1px solid rgba(0, 0, 0, 0.4);
+    border:1px solid rgb(255, 255, 255);
     background:transparent;
     color:white;
     font-family:'Poppins',sans-serif;
@@ -156,10 +158,10 @@ header{
 
 .filtro-btn:hover,
 .filtro-btn.activo{
-    background:#00e5ff;
-    color:black;
+    background:#7ef07a;
+    color:rgb(7, 7, 7);
     font-weight:600;
-    border-color:#00e5ff;
+    border-color:#ffffff;
 }
 
 /* ETIQUETAS */
@@ -194,11 +196,11 @@ header{
 }
 
 .product-card{
-    background:#b4b1b1;
+    background:#fcfcfc;
     border-radius:22px;
     overflow:hidden;
     transition:0.4s;
-    border:1px solid rgba(0, 0, 0, 0.12);
+    border:1px solid rgba(19, 16, 54, 0.12);
 }
 
 .product-card:hover{
@@ -238,7 +240,7 @@ header{
     padding:14px;
     border:none;
     border-radius:12px;
-    background:#00e5ff;
+    background:#8fec93;
     color:black;
     font-weight:bold;
     cursor:pointer;
@@ -246,7 +248,7 @@ header{
 }
 
 .product-info button:hover{
-    background:#00cfea;
+    background:#407240;
 }
 
 /* ===== OPCIONES DE PRODUCTO ===== */
@@ -324,7 +326,7 @@ header{
     position:fixed;
     right:20px;
     bottom:20px;
-    background:#1c97a4;
+    background:#69f57c;
     color:black;
     width:65px;
     height:65px;
@@ -334,7 +336,7 @@ header{
     align-items:center;
     font-size:30px;
     cursor:pointer;
-    box-shadow:0 0 20px #00e5ff;
+    box-shadow:0 0 20px #b8b9b9;
     z-index:1500;
 }
 
@@ -362,7 +364,7 @@ header{
     right:-400px;
     width:360px;
     height:100%;
-    background:#ffffff;
+    background:#272727;
     padding:25px;
     transition:0.4s;
     overflow-y:auto;
@@ -372,7 +374,7 @@ header{
 
 .sidebar h2{
     margin-bottom:20px;
-    color:#000000;
+    color:#ffffff;
 }
 
 .carrito-item{
@@ -422,7 +424,7 @@ header{
 
 .qty-subtotal{
     margin-left:auto;
-    color:#00e5ff;
+    color:#969696;
     font-weight:600;
 }
 
@@ -444,7 +446,7 @@ header{
     margin-top:15px;
     border:none;
     border-radius:12px;
-    background:#00e5ff;
+    background:#6dda9a;
     color:black;
     font-weight:bold;
     cursor:pointer;
@@ -454,7 +456,7 @@ header{
 .total{
     margin-top:20px;
     font-size:22px;
-    color:#00e5ff;
+    color:#b6b7b8;
     font-weight:700;
 }
 
@@ -613,10 +615,11 @@ footer{
 <div class="hero-content">
     <h1>JS3D INDUSTRIES</h1>
     <p>Productos de la mejor calidad para tu hogar.</p>
+    <h2>✨304 3919613🚀</h2>
 </div>
 </section>
 
-<h2 class="section-title">Conoce Nuestros Productos Aqui Abajo</h2>
+<h2 class="section-title">Conoce Nuestros Productos ⬇︎</h2>
 <div class="hero-content">
     <p style="text-align:center;">Escribe A Nuestro Whatsapp Para Hacer Pedidos Personalizados</p>
     <p style="text-align:center;">3043919613</p>
