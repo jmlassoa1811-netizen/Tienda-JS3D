@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS3D PDF Generator</title>
+<style>
+:root{--ink:#101820;--muted:#65717c;--accent:#20b8bd;--line:#dce3e8;--paper:#fff;--bg:#eef2f4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:#090d10;color:#fff;padding:22px 5%;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:900;letter-spacing:2px;font-size:25px}.brand span{color:var(--accent)}
+header small{color:#b9c5cb}
+main{max-width:1200px;margin:28px auto;padding:0 20px}
+.toolbar,.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button{border:0;border-radius:9px;padding:11px 16px;font-weight:700;cursor:pointer}
+.primary{background:var(--accent);color:#061315}.secondary{background:#e9eff2;color:#1b2931}
+input[type=search]{padding:11px 13px;border:1px solid var(--line);border-radius:9px;min-width:230px;flex:1}
+.status{color:var(--muted);font-size:13px;margin-left:auto}
+h1{font-size:22px;margin:0 0 6px}.sub{color:var(--muted);font-size:14px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.item{border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+.item img{width:100%;height:170px;object-fit:contain;background:#f4f6f7}
+.item .info{padding:12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.item .name{font-weight:800}.meta{font-size:12px;color:var(--muted)}.price{font-size:18px;font-weight:900}
+.pick{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:auto;padding-top:5px}
+.empty{padding:35px;text-align:center;color:var(--muted)}
+/* Hoja de impresión: cuatro productos por página */
+#printArea{display:none}
+.print-page{width:210mm;height:297mm;padding:13mm 14mm;margin:0 auto 18px;background:white;page-break-after:always;break-after:page;overflow:hidden;position:relative}
+.print-head{height:27mm;border-bottom:2px solid #111;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:8mm;margin-bottom:8mm}
+.print-logo{font-size:27pt;font-weight:900;letter-spacing:2px}.print-logo span{color:#159da3}
+.print-kicker{text-align:right;font-size:8pt;letter-spacing:1.5px;color:#68747c}
+.print-title{font-size:19pt;font-weight:800;margin:0 0 3mm}
+.print-desc{font-size:9pt;color:#66727a;margin:0 0 8mm}
+.print-grid{height:205mm;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8mm}
+.print-card{border:1px solid #dce2e5;border-radius:4mm;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.print-card img{width:100%;height:65mm;object-fit:contain;background:#f5f7f8}
+.print-info{padding:5mm;display:flex;flex-direction:column;gap:2.5mm;flex:1}
+.print-cat{font-size:7pt;text-transform:uppercase;letter-spacing:1px;color:#138e94;font-weight:800}
+.print-name{font-size:13pt;font-weight:800;line-height:1.2}
+.print-measure{font-size:8pt;color:#69757d}
+.print-price{font-size:15pt;font-weight:900;margin-top:auto;padding-top:3mm}
+.print-colors{font-size:8pt;color:#56636b}
+.print-foot{position:absolute;bottom:8mm;left:14mm;right:14mm;border-top:1px solid #e0e5e8;padding-top:3mm;display:flex;justify-content:space-between;font-size:7pt;color:#7b858b}
+@page{size:A4;margin:0}
+@media print{
+ body{background:#fff}
+ header,main{display:none!important}
+ #printArea{display:block!important}
+ .print-page{margin:0;box-shadow:none}
+}
+@media(max-width:600px){header{align-items:flex-start;flex-direction:column}.status{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">JS<span>3D</span> INDUSTRIES</div>
+  <small>PDF GENERATOR · Catálogo de productos</small>
+</header>
+<main>
+  <section class="panel">
+    <h1>Generador de catálogo PDF</h1>
+    <p class="sub">Los productos se leen directamente desde la misma hoja de Google Sheets que utiliza tu tienda.</p>
+  </section>
+  <section class="toolbar">
+    <button class="primary" id="loadBtn">↻ Cargar productos</button>
+    <input type="search" id="search" placeholder="Buscar producto o categoría…">
+    <button class="secondary" id="selectBtn">Seleccionar visibles</button>
+    <button class="secondary" id="clearBtn">Quitar selección</button>
+    <button class="primary" id="pdfBtn">Generar PDF / Imprimir</button>
+    <div class="status" id="status">Listo para cargar productos.</div>
+  </section>
+  <section class="panel">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+      <strong>Productos incluidos en el catálogo</strong>
+      <span class="sub" id="count">0 seleccionados</span>
+    </div>
+    <div class="grid" id="products"><div class="empty">Pulsa “Cargar productos” para consultar tu hoja.</div></div>
+  </section>
+</main>
+<div id="printArea"></div>
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzYzc-YMCAaX4cJxehmpylUAGC2ZBC2Eu7rMDUp6yU4oeydXQ7Wca1lKt-yOjW9exQ/exec";
+let allProducts = [];
+let selected = new Set();
+
+const $ = id => document.getElementById(id);
+const normalize = value => String(value ?? "").trim().toLowerCase();
+const isYes = value => ["si","sí","yes","true","1","x"].includes(normalize(value));
+const money = value => {
+  const n = Number(String(value ?? 0).replace(/[^\d.-]/g,""));
+  return "$" + (Number.isFinite(n) ? n : 0).toLocaleString("es-CO");
+};
+const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+function productKey(p, i){return String(p.id ?? `${p.producto}-${i}`);}
+function catalogProducts(){return allProducts.filter(p => isYes(p.catalogo));}
+
+async function loadProducts(){
+  $("status").textContent = "Consultando Google Sheets…";
+  $("loadBtn").disabled = true;
+  try{
+    const response = await fetch(API_URL);
+    if(!response.ok) throw new Error("Respuesta HTTP " + response.status);
+    const data = await response.json();
+    if(!Array.isArray(data)) throw new Error("La API no devolvió una lista de productos.");
+    allProducts = data;
+    const eligible = catalogProducts();
+    selected = new Set(eligible.map((p,i)=>productKey(p,allProducts.indexOf(p))));
+    render();
+    $("status").textContent = `${data.length} productos recibidos · ${eligible.length} marcados para catálogo`;
+  }catch(error){
+    $("status").textContent = "No se pudieron cargar los productos.";
+    $("products").innerHTML = `<div class="empty">Error: ${escapeHtml(error.message)}<br>Verifica que la URL de Apps Script siga publicada y accesible.</div>`;
+  }finally{$("loadBtn").disabled = false;}
+}
+function visibleProducts(){
+  const q = normalize($("search").value);
+  return catalogProducts().filter(p => !q || normalize(p.producto).includes(q) || normalize(p.categoria).includes(q));
+}
+function render(){
+  const list = visibleProducts();
+  $("products").innerHTML = list.length ? list.map(p=>{
+    const i=allProducts.indexOf(p), key=productKey(p,i);
+    const image = String(p.imagen ?? "").trim();
+    return `<article class="item">
+      <img src="${escapeHtml(image)}" alt="${escapeHtml(p.producto)}" onerror="this.style.visibility='hidden'">
+      <div class="info">
+        <div class="meta">${escapeHtml(p.categoria)}</div>
+        <div class="name">${escapeHtml(p.producto)}</div>
+        <div class="price">${money(p.precio)}</div>
+        <div class="meta">${escapeHtml(p.medidas || "")}</div>
+        <label class="pick"><input type="checkbox" data-key="${escapeHtml(key)}" ${selected.has(key)?"checked":""}> Incluir en PDF</label>
+      </div>
+    </article>`;
+  }).join("") : `<div class="empty">No hay productos con catalogo = SI que coincidan con la búsqueda.</div>`;
+  $("count").textContent = `${selected.size} seleccionados`;
+  $("products").querySelectorAll("input[type=checkbox]").forEach(cb=>cb.addEventListener("change",()=>{
+    cb.checked ? selected.add(cb.dataset.key) : selected.delete(cb.dataset.key);
+    $("count").textContent = `${selected.size} seleccionados`;
+  }));
+}
+function buildPrintPages(){
+  const chosen = catalogProducts().filter((p,i)=>selected.has(productKey(p,allProducts.indexOf(p))));
+  if(!chosen.length){alert("Selecciona al menos un producto.");return false;}
+  const pages=[];
+  for(let i=0;i<chosen.length;i+=4) pages.push(chosen.slice(i,i+4));
+  $("printArea").innerHTML = pages.map((page,index)=>`
+    <section class="print-page">
+      <div class="print-head">
+        <div class="print-logo">JS<span>3D</span></div>
+        <div class="print-kicker">JS3D INDUSTRIES<br>CATÁLOGO DE PRODUCTOS</div>
+      </div>
+      <h1 class="print-title">Nuestros productos</h1>
+      <p class="print-desc">Diseños y productos elaborados mediante impresión 3D.</p>
+      <div class="print-grid">
+        ${page.map(p=>`
+          <article class="print-card">
+            <img src="${escapeHtml(p.imagen || "")}" alt="${escapeHtml(p.producto)}" onerror="this.style.visibility='hidden'">
+            <div class="print-info">
+              <div class="print-cat">${escapeHtml(p.categoria)}</div>
+              <div class="print-name">${escapeHtml(p.producto)}</div>
+              ${p.medidas ? `<div class="print-measure">${escapeHtml(p.medidas)}</div>` : ""}
+              ${p.colores ? `<div class="print-colors">Colores: ${escapeHtml(p.colores)}</div>` : ""}
+              <div class="print-price">${money(p.precio)}</div>
+            </div>
+          </article>`).join("")}
+      </div>
+      <div class="print-foot"><span>JS3D INDUSTRIES · Tecnología & creatividad</span><span>Página ${index+1} de ${pages.length}</span></div>
+    </section>`).join("");
+  return true;
+}
+$("loadBtn").addEventListener("click",loadProducts);
+$("search").addEventListener("input",render);
+$("selectBtn").addEventListener("click",()=>{visibleProducts().forEach(p=>selected.add(productKey(p,allProducts.indexOf(p))));render();});
+$("clearBtn").addEventListener("click",()=>{selected.clear();render();});
+$("pdfBtn").addEventListener("click",()=>{
+  if(!allProducts.length){alert("Primero carga los productos.");return;}
+  if(!buildPrintPages())return;
+  // Espera a que el navegador intente cargar las imágenes antes de abrir el diálogo.
+  const images=[...$("printArea").querySelectorAll("img")];
+  Promise.all(images.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{
+    img.onload=resolve;img.onerror=resolve;setTimeout(resolve,5000);
+  }))).then(()=>window.print());
+});
+loadProducts();
+</script>
+</body>
+</html>
